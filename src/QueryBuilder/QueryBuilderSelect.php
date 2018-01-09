@@ -54,7 +54,7 @@ class QueryBuilderSelect {
 		foreach ($this->joins[1] as $arg){ $args[] = $arg; }
 
 		if (count($this->where[0]) > 0){
-			$sql .= 'WHERE '.join(' AND ', $this->where[0]).' ';
+			$sql .= 'WHERE ('.join(') AND (', $this->where[0]).') ';
 			foreach ($this->where[1] as $arg){ $args[] = $arg; }
 		}
 
@@ -64,7 +64,7 @@ class QueryBuilderSelect {
 		}
 
 		if (count($this->having[0]) > 0){
-			$sql .= 'HAVING '.join(' AND ', $this->having[0]).' ';
+			$sql .= 'HAVING ('.join(') AND (', $this->having[0]).') ';
 			foreach ($this->having[1] as $arg){ $args[] = $arg; }
 		}
 
