@@ -22,12 +22,12 @@ class ConnectionMysql extends Connection {
 	}
 
 	public function foundRows(){
-		$cnt = $this->q("SELECT FOUND_ROWS()");
+		$cnt = $this->execute("SELECT FOUND_ROWS()");
 		return $cnt !== false ? $cnt->result() : 0;
 	}
 
 	public function lastInsertID(){
-		$id = $this->q('SELECT LAST_INSERT_ID()');
+		$id = $this->execute('SELECT LAST_INSERT_ID()');
 		return $id !== false ? $id->result() : false;
 	}
 
