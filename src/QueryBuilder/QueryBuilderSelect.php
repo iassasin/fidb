@@ -103,7 +103,7 @@ class QueryBuilderSelect {
 		return $this;
 	}
 
-	public function table($name, $vals){
+	public function table($name, $vals = null){
 		$this->tables[0][] = $name;
 		$this->processVals($this->tables[1], $vals);
 		return $this;
