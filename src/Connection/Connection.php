@@ -17,18 +17,23 @@ abstract class Connection {
 		$this->close();
 	}
 
-	protected abstract function makeConnection($host, $database, $user, $password);
-	protected abstract function quoteString($val);
-	protected abstract function escapeString($val);
-	protected abstract function quoteIdentifier($val);
+	protected abstract function makeConnection($host, $database, $user, $password): \PDO;
+	protected abstract function quoteString($val): string;
+	protected abstract function escapeString($val): string;
+	protected abstract function quoteIdentifier($val): string;
 
-	public function close(){
+	public function close() {
 		if ($this->conn){
 			$this->conn = false;
 		}
 	}
 
-	public function execute($q){
+	/**
+	 * Execute raw sql query
+	 * @param string $q query
+	 * @return Statement|bool Result statement
+	 */
+	public function execute(string $q) {
 		$res = $this->conn->query($q);
 
 		if ($res === false){
@@ -41,7 +46,7 @@ abstract class Connection {
 		return new Statement($res);
 	}
 
-	public function prepareQueryString($q, $args){
+	public function prepareQueryString(string $q, array $args): string {
 		$l = count($args);
 
 		$a = 0;
@@ -86,14 +91,13 @@ abstract class Connection {
 		return $q;
 	}
 
-	public function query($q){
-		$l = func_num_args();
-		$args = func_get_args();
-		array_shift($args);
-
-		if ($l < 1)
-			return null;
-
+	/**
+	 * Substitute sql template with args and execute a query
+	 * @param string $q query template
+	 * @param mixed $args,... arguments
+	 * @return Statement|bool Result statement
+	 */
+	public function query(string $q, ...$args){
 		$q = $this->prepareQueryString($q, $args);
 
 		$res = $this->conn->query($q);
@@ -108,14 +112,13 @@ abstract class Connection {
 		return new Statement($res);
 	}
 
-	public function prepare($q){
-		$l = func_num_args();
-		$args = func_get_args();
-		array_shift($args);
-
-		if ($l < 1)
-			return null;
-
+	/**
+	 * Substitute sql template with args and prepare a query
+	 * @param string $q query template
+	 * @param mixed $args,... arguments
+	 * @return Statement|bool Prepared statement
+	 */
+	public function prepare($q, ...$args){
 		$q = $this->prepareQueryString($q, $args);
 
 		$res = $this->conn->prepare($q);
@@ -130,7 +133,7 @@ abstract class Connection {
 		return new Statement($res);
 	}
 
-	public function select(){
+	public function select(): QueryBuilderSelect {
 		return new QueryBuilderSelect($this);
 	}
 }

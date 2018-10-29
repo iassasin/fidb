@@ -5,6 +5,7 @@ namespace Iassasin\Fidb\QueryBuilder;
 use \Iassasin\Fidb\Connection\Connection;
 
 class QueryBuilderSelect {
+	/** @var Connection */
 	protected $db;
 
 	protected $columns;
@@ -16,17 +17,17 @@ class QueryBuilderSelect {
 	protected $order;
 	protected $limit;
 
-	public function __construct(Connection $db){
+	public function __construct(Connection $db) {
 		$this->db = $db;
 		$this->clear();
 	}
 
-	public function calcFoundRows($val = true){
+	public function calcFoundRows($val = true): self {
 		$this->funcCalcFoundRows = $val;
 		return $this;
 	}
 
-	protected function processVals(&$arr, $vals){
+	protected function processVals(&$arr, $vals) {
 		if ($vals !== null){
 			if (is_array($vals)){
 				foreach ($vals as $val){
@@ -38,7 +39,7 @@ class QueryBuilderSelect {
 		}
 	}
 
-	public function sql(){
+	public function sql(): string {
 		$args = [];
 		$sql = 'SELECT ';
 
@@ -81,11 +82,15 @@ class QueryBuilderSelect {
 		return $this->db->prepareQueryString($sql, $args);
 	}
 
-	public function execute(){
+	/**
+	 * Build and execute sql query
+	 * @return Statement|bool Result statement
+	 */
+	public function execute() {
 		return $this->db->execute($this->sql());
 	}
 
-	public function clear(){
+	public function clear() {
 		//[[names],[args]]
 		$this->columns = [[],[]];
 		$this->tables = [[], []];
@@ -97,19 +102,19 @@ class QueryBuilderSelect {
 		$this->limit = ['',[]];
 	}
 
-	public function column($name, $vals = null){
+	public function column(string $name, $vals = null): self {
 		$this->columns[0][] = $name;
 		$this->processVals($this->columns[1], $vals);
 		return $this;
 	}
 
-	public function table($name, $vals = null){
+	public function table(string $name, $vals = null): self {
 		$this->tables[0][] = $name;
 		$this->processVals($this->tables[1], $vals);
 		return $this;
 	}
 
-	public function join($name, $cond, $vals = null, $dir = 'LEFT'){
+	public function join(string $name, string $cond, $vals = null, string $dir = 'LEFT'): self {
 		$this->joins[0][] = [$dir, $name, $cond];
 		$this->processVals($this->joins[1], $vals);
 		return $this;
@@ -120,45 +125,45 @@ class QueryBuilderSelect {
 		return $this;
 	}
 
-	protected function outerJoin($name, $cond, $vals = null, $dir){
+	protected function outerJoin(string $name, string $cond, $vals = null, string $dir): self {
 		$this->joins[0][] = [$dir.' OUTER', $name, $cond];
 		$this->processVals($this->joins[1], $vals);
 		return $this;
 	}
 
-	public function leftOuterJoin($name, $cond, $vals = null){
+	public function leftOuterJoin(string $name, string $cond, $vals = null): self {
 		return $this->outerJoin($name, $cond, $vals, 'LEFT');
 	}
 
-	public function rightOuterJoin($name, $cond, $vals = null){
+	public function rightOuterJoin(string $name, string $cond, $vals = null): self {
 		return $this->outerJoin($name, $cond, $vals, 'RIGHT');
 	}
 
-	public function where($name, $vals = null){
+	public function where(string $name, $vals = null): self {
 		$this->where[0][] = $name;
 		$this->processVals($this->where[1], $vals);
 		return $this;
 	}
 
-	public function having($name, $vals = null){
+	public function having(string $name, $vals = null): self {
 		$this->having[0][] = $name;
 		$this->processVals($this->having[1], $vals);
 		return $this;
 	}
 
-	public function group($name, $vals = null){
+	public function group(string $name, $vals = null): self {
 		$this->group[0][] = $name;
 		$this->processVals($this->group[1], $vals);
 		return $this;
 	}
 
-	public function order($name, $vals = null){
+	public function order(string $name, $vals = null): self {
 		$this->order[0][] = $name;
 		$this->processVals($this->order[1], $vals);
 		return $this;
 	}
 
-	public function limit($from, $max){
+	public function limit(int $from, int $max): self {
 		$this->limit[0] = 'LIMIT %d, %d';
 		$this->limit[1] = [];
 		$this->processVals($this->limit[1], [$from, $max]);

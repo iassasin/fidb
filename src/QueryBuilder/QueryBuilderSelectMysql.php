@@ -5,12 +5,12 @@ namespace Iassasin\Fidb\QueryBuilder;
 class QueryBuilderSelectMysql extends QueryBuilderSelect {
 	protected $funcCalcFoundRows;
 
-	public function clear(){
+	public function clear() {
 		parent::clear();
 		$this->funcCalcFoundRows = false;
 	}
 
-	public function sql(){
+	public function sql(): string {
 		$sql = parent::sql();
 
 		if ($this->funcCalcFoundRows){
