@@ -8,12 +8,12 @@ use \Iassasin\Fidb\Statement;
 abstract class Connection {
 	protected $conn;
 
-	public function __construct($host, $database, $user, $password){
+	public function __construct($host, $database, $user, $password) {
 		$this->conn = $this->makeConnection($host, $database, $user, $password);
 		$this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
-	public function __destruct(){
+	public function __destruct() {
 		$this->close();
 	}
 
