@@ -22,11 +22,6 @@ class QueryBuilderSelect {
 		$this->clear();
 	}
 
-	public function calcFoundRows($val = true): self {
-		$this->funcCalcFoundRows = $val;
-		return $this;
-	}
-
 	protected function processVals(&$arr, $vals) {
 		if ($vals !== null){
 			if (is_array($vals)){
