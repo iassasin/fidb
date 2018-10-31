@@ -23,12 +23,17 @@ class Statement {
 		return $this->res->columnCount();
 	}
 
-	public function fetch(): array {
+	public function fetch() {
 		return $this->res->fetch();
 	}
 
 	public function fetchObject(string $class) {
-		return $this->createObjectWithValues($this->fetch(), $class);
+		$values = $this->fetch();
+		if ($values === false) {
+			return false;
+		}
+
+		return $this->createObjectWithValues($values, $class);
 	}
 
 	public function fetchAll(): array {

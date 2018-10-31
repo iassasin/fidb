@@ -31,4 +31,8 @@ class TestHelper {
 
 		return $conn;
 	}
+
+	public static function getAllMethodNamesExcept($class, array $excluded): array {
+		return array_diff(get_class_methods($class), $excluded);
+	}
 }
