@@ -3,6 +3,7 @@
 namespace Iassasin\Fidb\QueryBuilder;
 
 use \Iassasin\Fidb\Connection\Connection;
+use \Iassasin\Fidb\Statement;
 
 class QueryBuilderSelect {
 	/** @var Connection */

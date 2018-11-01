@@ -2,7 +2,7 @@
 
 namespace Iassasin\Fidb\Connection;
 
-use \Iassasin\Fidb\QueryBuilder\QueryBuilderSelect;
+use \Iassasin\Fidb\QueryBuilder\{QueryBuilderSelect, QueryBuilderInsert};
 use \Iassasin\Fidb\Statement;
 
 abstract class Connection {
@@ -135,5 +135,9 @@ abstract class Connection {
 
 	public function select(): QueryBuilderSelect {
 		return new QueryBuilderSelect($this);
+	}
+
+	public function insert(string $table = ''): QueryBuilderInsert {
+		return (new QueryBuilderInsert($this))->table($table);
 	}
 }

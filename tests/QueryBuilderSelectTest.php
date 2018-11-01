@@ -10,7 +10,7 @@ namespace Iassasin\Fidb\Tests;
 use Iassasin\Fidb\Connection\ConnectionMysql;
 use Iassasin\Fidb\Connection\Connection;
 
-class SelectQueryBuilderTest extends \PHPUnit\Framework\TestCase {
+class QueryBuilderSelectTest extends \PHPUnit\Framework\TestCase {
 	public function testQueryBuilder() {
 		$conn = TestHelper::createConnectionMock($this, TestHelper::createPdoMock($this));
 		$bs = $conn->select();
