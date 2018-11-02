@@ -107,6 +107,31 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('c', $savedData->public);
 	}
 
+	public function testSaveInsertPartialObject() {
+		$expectedId = '1';
+
+		$conn = TestHelper::createConnectionMock($this, TestHelper::createPdoMock($this));
+
+		$conn->method('lastInsertID')
+			->willReturn($expectedId);
+
+		$conn->expects($this->once())
+			->method('execute')
+			->with($this->equalTo('INSERT INTO `data`(`protected`) VALUES ("b")'))
+			->willReturn(true);
+
+		$repo = new DataRepository($conn);
+		$data = Data::of(null, 'b', null);
+
+		$savedData = $repo->save($data);
+
+		$this->assertInstanceOf(Data::class, $savedData);
+		$this->assertEquals($expectedId, $savedData->getPrivate());
+		$this->assertEquals('b', $savedData->getProtected());
+		// TODO: select inserted data in case of default values
+		$this->assertEquals(null, $savedData->public);
+	}
+
 	public function testSaveUpdateObject() {
 		$expectedId = '1';
 
