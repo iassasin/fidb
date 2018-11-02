@@ -20,7 +20,7 @@ class TestHelper {
 
 	public static function createConnectionMock($tester, $pdoMock): Connection {
 		$conn = $tester->getMockBuilder(ConnectionMysql::class)
-			->setMethods(['makeConnection'])
+			->setMethods(['makeConnection', 'execute', 'lastInsertID'])
 			->disableOriginalConstructor()
 			->getMock();
 
