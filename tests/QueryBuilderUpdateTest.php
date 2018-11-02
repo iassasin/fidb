@@ -25,7 +25,7 @@ class QueryBuilderUpdateTest extends \PHPUnit\Framework\TestCase {
 			->where('f2 > %d', 55)
 			->where('%a = %s', 'f3', 'str');
 
-		$this->assertEquals($bu->sql(), 'UPDATE `testtable` SET `col1` = "s123",`col2` = "321",`col3` = 33'
-			.' WHERE (f1 > 0) AND (f2 > 55) AND (`f3` = "str")');
+		$this->assertEquals('UPDATE `testtable` SET `col1` = "s123",`col2` = "321",`col3` = 33'
+			.' WHERE (f1 > 0) AND (f2 > 55) AND (`f3` = "str")', $bu->sql());
 	}
 }

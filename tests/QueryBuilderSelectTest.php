@@ -25,9 +25,10 @@ class QueryBuilderSelectTest extends \PHPUnit\Framework\TestCase {
 		$bs->order('rating DESC, time ASC');
 		$bs->limit(0, 5);
 
-		$this->assertEquals($bs->sql(), 'SELECT b.id, b.author_id, b.`qid`, qb.name AS qb_name FROM bas b'
+		$this->assertEquals('SELECT b.id, b.author_id, b.`qid`, qb.name AS qb_name FROM bas b'
 			.' LEFT JOIN qbas qb ON b.qid = qb.id WHERE (b.del = 0) AND (qb.`private` = 0)'
-			.' AND (b.time >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 7 DAY)) ORDER BY rating DESC, time ASC LIMIT 0, 5 ');
+			.' AND (b.time >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 7 DAY)) ORDER BY rating DESC, time ASC LIMIT 0, 5',
+			$bs->sql());
 	}
 
 	public function testMysqlCalcFoundRows() {
@@ -40,6 +41,6 @@ class QueryBuilderSelectTest extends \PHPUnit\Framework\TestCase {
 			->group('a')
 			->calcFoundRows();
 
-		$this->assertEquals($bs->sql(), 'SELECT SQL_CALC_FOUND_ROWS a, b FROM test GROUP BY a HAVING (a = b) ');
+		$this->assertEquals('SELECT SQL_CALC_FOUND_ROWS a, b FROM test GROUP BY a HAVING (a = b)', $bs->sql());
 	}
 }

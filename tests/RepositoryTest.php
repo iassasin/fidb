@@ -80,7 +80,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase {
 		$repo = new DataRepository($conn);
 		$sql = $repo->findByIdSql('1');
 
-		$this->assertEquals('SELECT private,protected,public FROM data WHERE (`private` = "1") ', $sql);
+		$this->assertEquals('SELECT private,protected,public FROM data WHERE (`private` = "1")', $sql);
 	}
 
 	public function testSaveInsertObject() {

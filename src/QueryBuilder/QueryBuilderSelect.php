@@ -39,39 +39,39 @@ class QueryBuilderSelect {
 		$args = [];
 		$sql = 'SELECT ';
 
-		$sql .= join(', ', $this->columns[0]).' ';
+		$sql .= join(', ', $this->columns[0]);
 		foreach ($this->columns[1] as $arg){ $args[] = $arg; }
 
-		$sql .= 'FROM '.join(', ', $this->tables[0]).' ';
+		$sql .= ' FROM '.join(', ', $this->tables[0]);
 		foreach ($this->tables[1] as $arg){ $args[] = $arg; }
 
 		foreach ($this->joins[0] as $j){
-			$sql .= $j[0].' JOIN '.$j[1].' ON '.$j[2].' ';
+			$sql .= ' '.$j[0].' JOIN '.$j[1].' ON '.$j[2];
 		}
 		foreach ($this->joins[1] as $arg){ $args[] = $arg; }
 
 		if (count($this->where[0]) > 0){
-			$sql .= 'WHERE ('.join(') AND (', $this->where[0]).') ';
+			$sql .= ' WHERE ('.join(') AND (', $this->where[0]).')';
 			foreach ($this->where[1] as $arg){ $args[] = $arg; }
 		}
 
 		if (count($this->group[0]) > 0){
-			$sql .= 'GROUP BY '.join(', ', $this->group[0]).' ';
+			$sql .= ' GROUP BY '.join(', ', $this->group[0]);
 			foreach ($this->group[1] as $arg){ $args[] = $arg; }
 		}
 
 		if (count($this->having[0]) > 0){
-			$sql .= 'HAVING ('.join(') AND (', $this->having[0]).') ';
+			$sql .= ' HAVING ('.join(') AND (', $this->having[0]).')';
 			foreach ($this->having[1] as $arg){ $args[] = $arg; }
 		}
 
 		if (count($this->order[0]) > 0){
-			$sql .= 'ORDER BY '.join(', ', $this->order[0]).' ';
+			$sql .= ' ORDER BY '.join(', ', $this->order[0]);
 			foreach ($this->order[1] as $arg){ $args[] = $arg; }
 		}
 
 		if ($this->limit[0] != ''){
-			$sql .= $this->limit[0].' ';
+			$sql .= ' '.$this->limit[0];
 			foreach ($this->limit[1] as $arg){ $args[] = $arg; }
 		}
 

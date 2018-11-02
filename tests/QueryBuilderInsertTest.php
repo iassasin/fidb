@@ -22,6 +22,6 @@ class QueryBuilderInsertTest extends \PHPUnit\Framework\TestCase {
 		$bi->column('col2', 321);
 		$bi->column('col3', '33', '%d');
 
-		$this->assertEquals($bi->sql(), 'INSERT INTO `testtable`(`col1`,`col2`,`col3`) VALUES ("s123","321",33)');
+		$this->assertEquals('INSERT INTO `testtable`(`col1`,`col2`,`col3`) VALUES ("s123","321",33)', $bi->sql());
 	}
 }
