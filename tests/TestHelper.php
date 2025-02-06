@@ -3,6 +3,7 @@
 namespace Iassasin\Fidb\Tests;
 
 use Iassasin\Fidb\Connection\ConnectionMysql;
+use Iassasin\Fidb\Connection\ConnectionPostgres;
 use Iassasin\Fidb\Connection\Connection;
 
 class TestHelper {
@@ -20,6 +21,20 @@ class TestHelper {
 
 	public static function createConnectionMock($tester, $pdoMock): Connection {
 		$conn = $tester->getMockBuilder(ConnectionMysql::class)
+			->setMethods(['makeConnection', 'execute', 'lastInsertID'])
+			->disableOriginalConstructor()
+			->getMock();
+
+		$conn->method('makeConnection')
+			->willReturn($pdoMock);
+
+		$conn->__construct('', '', '', '');
+
+		return $conn;
+	}
+
+	public static function createPgConnectionMock($tester, $pdoMock): Connection {
+		$conn = $tester->getMockBuilder(ConnectionPostgres::class)
 			->setMethods(['makeConnection', 'execute', 'lastInsertID'])
 			->disableOriginalConstructor()
 			->getMock();

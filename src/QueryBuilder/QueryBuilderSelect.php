@@ -86,6 +86,28 @@ class QueryBuilderSelect {
 		return $this->db->execute($this->sql());
 	}
 
+	/**
+	 * Build and execute sql count query (omits columns, limits and order)
+	 * @return int|bool Result statement
+	 */
+	public function count() {
+		$cols = $this->columns;
+		$order = $this->order;
+		$limit = $this->limit;
+
+		$this->columns = [['count(*)'], []];
+		$this->order = [[], []];
+		$this->limit = ['', []];
+
+		$result = $this->db->execute($this->sql());
+
+		$this->columns = $cols;
+		$this->order = $order;
+		$this->limit = $limit;
+
+		return $result !== false ? +$result->result() : false;
+	}
+
 	public function clear() {
 		//[[names],[args]]
 		$this->columns = [[],[]];

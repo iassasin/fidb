@@ -24,4 +24,15 @@ class QueryBuilderSelectMysql extends QueryBuilderSelect {
 
 		return $sql;
 	}
+
+	public function count() {
+		$calc = $this->funcCalcFoundRows;
+		$this->funcCalcFoundRows = false;
+
+		$res = parent::count();
+
+		$this->funcCalcFoundRows = $calc;
+
+		return $res;
+	}
 }
